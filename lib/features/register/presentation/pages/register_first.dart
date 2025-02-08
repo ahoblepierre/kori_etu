@@ -70,7 +70,8 @@ class RegisterFirst extends StatelessWidget {
                     },
                   ),
                   RegisterFirstCard(
-                    title: " Pour recevoir des fonds",
+                    // title: " Pour recevoir des fonds",
+                    title: "Je suis étudiant",
                     imagePath: "assets/images/etudiant.png",
                     subTitle:
                         "Idéal pour les étudiants en Occident souhaitant recevoir de l’argent de leurs proches avec des notifications en temps réel.",
@@ -81,7 +82,8 @@ class RegisterFirst extends StatelessWidget {
                     },
                   ),
                   RegisterFirstCard(
-                    title: "Pour envoyer et recevoir de l’argent",
+                    // title: "Pour envoyer et recevoir de l’argent",
+                    title: "je ne suis pas un étudiant",
                     imagePath: "assets/images/parent.png",
                     subTitle:
                         "Parfait pour envoyer de l’argent depuis l’Afrique ou l’Europe de manière simple et sécurisée.",

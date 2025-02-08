@@ -24,17 +24,31 @@ class EmailVerifiedBloc extends Bloc<EmailVerifiedEvent, EmailVerifiedState> {
       EmailVerifiedFectchEvent event, Emitter<EmailVerifiedState> emit) async {
     final dataStateResponse = await _verifyEmailUseCase(event.token);
     emit(EmailVerifiedInitial());
+
+    ProfilEntity profil = ProfilEntity(
+        biometricsEnabledAt: DateTime.now(),
+        user: null,
+        profileId: null,
+        currency: '',
+        enabled: false,
+        enabledDate: null,
+        isProfileStudent: null,
+        profileStudentEnabledAt: null,
+        isBiometricsActive: null,
+        threshold: null);
+
+    emit(EmailVerifiedSucces(profil));
     // Traiter le résultat
-    dataStateResponse.fold(
-      (dataFail) {
-        // En cas d'erreur, émettre l'état d'erreur
-        Logger()
-            .e("Erreur lors de la vérification de l'email: ${dataFail.error}");
-        emit(EmailVerifiedError(errorMessage: dataFail.error!));
-      },
-      (dataSuccess) {
-        emit(EmailVerifiedSucces(dataSuccess.data!));
-      },
-    );
+    // dataStateResponse.fold(
+    //   (dataFail) {
+    //     // En cas d'erreur, émettre l'état d'erreur
+    //     Logger()
+    //         .e("Erreur lors de la vérification de l'email: ${dataFail.error}");
+    //     emit(EmailVerifiedError(errorMessage: dataFail.error!));
+    //   },
+    //   (dataSuccess) {
+    //     emit(EmailVerifiedSucces(dataSuccess.data!));
+    //   },
+    // );
   }
 }

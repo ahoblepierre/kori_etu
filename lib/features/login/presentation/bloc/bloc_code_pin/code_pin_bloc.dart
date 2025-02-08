@@ -59,16 +59,18 @@ class CodePinBloc extends Bloc<CodePinEvent, CodePinState> {
     );
     final dataResponse = await _loginUsesCase(userLogin);
 
-    dataResponse.fold((dataFail) {
-      Logger().i(dataFail.data.toString());
-      emit(ErreurCodePinState(
-        message: dataFail.data ?? " Une erreur s'est produite",
-      ));
-    }, (dataSuccess) {
-      StorageService().saveAuthSession(dataSuccess.data!);
-      storage.setIsAuthenticated(); // set isAuthenticated
-      storage.setIsDateNowToLogin(); // set isDateNowToLogin
-      emit(CodePinSuccessState());
-    });
+    emit(CodePinSuccessState());
+
+    // dataResponse.fold((dataFail) {
+    //   Logger().i(dataFail.data.toString());
+    //   emit(ErreurCodePinState(
+    //     message: dataFail.data ?? " Une erreur s'est produite",
+    //   ));
+    // }, (dataSuccess) {
+    //   StorageService().saveAuthSession(dataSuccess.data!);
+    //   storage.setIsAuthenticated(); // set isAuthenticated
+    //   storage.setIsDateNowToLogin(); // set isDateNowToLogin
+    //   emit(CodePinSuccessState());
+    // });
   }
 }

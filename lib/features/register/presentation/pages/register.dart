@@ -30,9 +30,9 @@ class Register extends StatefulWidget {
   State<Register> createState() => _RegisterState();
 }
 
-final _textEditingController = TextEditingController();
-final FocusNode _focusNodeEmail = FocusNode();
-final FocusNode _focusNodeTelephone = FocusNode();
+late TextEditingController _textEditingController;
+late FocusNode _focusNodeEmail;
+late FocusNode _focusNodeTelephone;
 
 bool showFirstField = true;
 
@@ -64,6 +64,10 @@ class _RegisterState extends State<Register> {
     super.initState();
     getUserIng();
     initContry();
+
+    _focusNodeEmail = FocusNode();
+    _focusNodeTelephone = FocusNode();
+    _textEditingController = TextEditingController();
   }
 
   @override
@@ -71,6 +75,7 @@ class _RegisterState extends State<Register> {
     super.dispose();
     _focusNodeEmail.dispose();
     _focusNodeTelephone.dispose();
+    _textEditingController.dispose();
   }
 
   Future<void> getUserIng() async {
@@ -128,6 +133,7 @@ class _RegisterState extends State<Register> {
             child: BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
                 if (state is RegisterSessionSuccess) {
+                  _textEditingController.clear();
                   final user = getUser();
                   context.pushNamed(
                     CONFIRMEMAIL,
@@ -287,13 +293,17 @@ class _RegisterState extends State<Register> {
                             if (_registerForm.currentState!.validate()) {
                               final user = getUser();
                               Logger().i(user.toString());
-                              context
-                                  .read<RegisterBloc>()
-                                  .add(RegisterCreateSessionEvent(user));
-                              _registerForm.currentState!.reset();
-                              // context.pushNamed(DASHBOARDPARENT);
-                              // _textEditingController.clear();
-                              // _focusNodeEmail.requestFocus();
+                              context.pushNamed(
+                                CONFIRMEMAIL,
+                                queryParameters: {
+                                  "email": _textEditingController.text,
+                                  "user": _textEditingController.text,
+                                },
+                              );
+
+                              // context
+                              //     .read<RegisterBloc>()
+                              //     .add(RegisterCreateSessionEvent(user));
                             }
                           },
                         );

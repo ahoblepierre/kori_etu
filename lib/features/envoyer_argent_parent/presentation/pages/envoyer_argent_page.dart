@@ -103,7 +103,7 @@ class EnvoyerArgentPage extends StatelessWidget {
                   children: [
                     const Flexible(child: Divider()),
                     SizedBox(width: SizeConfig.blockHorizontal! * 2.5),
-                    Text("Informatuon du bénéficiaire",
+                    Text("Information du bénéficiaire",
                         style: TextStyle(
                           fontSize: SizeConfig.blockHorizontal! * 4.5,
                         )),

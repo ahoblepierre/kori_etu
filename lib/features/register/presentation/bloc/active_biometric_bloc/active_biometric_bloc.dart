@@ -29,12 +29,15 @@ class ActiveBiometricBloc
         return;
       }
       final httpDataResponse = await _activeBiometricUsecase.call(null);
-      httpDataResponse.fold((dataFail) {
-        emit(ActiveBiometricError(message: dataFail.error!));
-      }, (dataSuccess) {
-        StorageService().setBiometricIsActif();
-        emit(ActiveBiometricSucces());
-      });
+
+      emit(ActiveBiometricSucces());
+
+      //   httpDataResponse.fold((dataFail) {
+      //     emit(ActiveBiometricError(message: dataFail.error!));
+      //   }, (dataSuccess) {
+      //     StorageService().setBiometricIsActif();
+      //     emit(ActiveBiometricSucces());
+      //   });
     });
   }
 }

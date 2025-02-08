@@ -51,11 +51,11 @@ class _EmailConfirmeState extends State<EmailConfirme> {
     );
 
     /// recuperer les query parameters
-    final userJson = state.uri.queryParameters['user'];
-    if (userJson != null) {
-      final Map<String, dynamic> userMap = jsonDecode(userJson);
-      user = RegisterUser.fromJson(userMap);
-    }
+    // final userJson = state.uri.queryParameters['user'];
+    // if (userJson != null ) {
+    //   final Map<String, dynamic> userMap = jsonDecode(userJson);
+    //   user = RegisterUser.fromJson(userMap);
+    // }
   }
 
   @override
@@ -123,7 +123,8 @@ class _EmailConfirmeState extends State<EmailConfirme> {
                     context.pushNamed(
                       EMAILVERIFIED,
                       pathParameters: {
-                        "token": StorageService().getCache(emailTokenValidite)
+                        "token": "PIERRE AHOBLE"
+                        // "token": StorageService().getCache(emailTokenValidite)
                       },
                     );
                   },

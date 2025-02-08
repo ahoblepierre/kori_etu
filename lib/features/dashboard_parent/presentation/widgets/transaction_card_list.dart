@@ -68,7 +68,7 @@ class TransactionCardList extends StatelessWidget {
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: 100,
+                itemCount: 4,
                 itemBuilder: (context, index) {
                   return Container(
                     margin: const EdgeInsets.symmetric(

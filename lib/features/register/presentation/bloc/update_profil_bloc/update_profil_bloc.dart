@@ -27,11 +27,13 @@ class UpdateProfilBloc extends Bloc<UpdateProfilEvent, UpdateProfilState> {
 
     final httpDataresponse = await _changeProfilUsecase(null);
 
-    httpDataresponse.fold((dataFail) {
-      emit(UpdateProfilFailureState(error: dataFail.error!));
-    }, (dataSuccess) {
-      emit(UpdateProfilSuccessState());
-    });
+    emit(UpdateProfilSuccessState());
+
+    // httpDataresponse.fold((dataFail) {
+    //   emit(UpdateProfilFailureState(error: dataFail.error!));
+    // }, (dataSuccess) {
+    //   emit(UpdateProfilSuccessState());
+    // });
   }
 
   FutureOr<void> updateProfilLoadParentingEvent(

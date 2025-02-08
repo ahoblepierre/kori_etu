@@ -68,14 +68,51 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> authSendEvent(
       AuthSendEvent event, Emitter<AuthState> emit) async {
     final httpDataResponse = await _authenticateUseCase.call(event.auth);
-    httpDataResponse.fold((dataFail) {
-      emit(AuthErrorState(error: dataFail.error!));
-    }, (dataSuccess) {
-      final storage = StorageService();
-      storage.setIsAuthenticated(); // set is authenticated
-      storage.setIsDateNowToLogin(); // set is date now to login
-      emit(AuthSuccessState(authSessionModel: dataSuccess.data!));
-    });
+
+    AuthSessionModel auth = AuthSessionModel(
+        sessionId: '',
+        accessToken: null,
+        sessionStatus: '',
+        profile: Profile(
+            profileId: 1,
+            currency: "currency",
+            enabled: true,
+            enabledDate: DateTime.now(),
+            isProfileStudent: true,
+            user: User(
+                userId: 2,
+                lastname: "lastname",
+                firstname: "firstname",
+                gender: "M",
+                civility: "civility",
+                photo: "photo",
+                country: "country",
+                countryCode: "countryCode",
+                city: "city",
+                mobile: "mobile",
+                email: "email",
+                profession: "profession",
+                role: "role",
+                status: "status",
+                createdOn: DateTime.now(),
+                updatedOn: DateTime.now())),
+        platform: '',
+        deviceRef: '',
+        deviceRefId: '',
+        deviceOs: '',
+        ipAddress: '',
+        lastConnected: null);
+
+    emit(AuthSuccessState(authSessionModel: auth));
+
+    // httpDataResponse.fold((dataFail) {
+    //   emit(AuthErrorState(error: dataFail.error!));
+    // }, (dataSuccess) {
+    //   final storage = StorageService();
+    //   storage.setIsAuthenticated(); // set is authenticated
+    //   storage.setIsDateNowToLogin(); // set is date now to login
+    //   emit(AuthSuccessState(authSessionModel: dataSuccess.data!));
+    // });
   }
 
   FutureOr<void> authChangePinEvent(

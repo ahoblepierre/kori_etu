@@ -21,19 +21,19 @@ class KoriButtonIcon extends StatelessWidget {
       onPressed: onPressed,
       label: Text(
         labelText,
-        style: koriTextStyle(fontWeight: FontWeight.normal),
+        style: koriTextStyle(fontWeight: FontWeight.w600),
       ),
       icon: HugeIcon(
         icon: icon,
         color: color ?? Colors.black,
-        size: 20.0,
+        size: 25.0,
       ),
       style: ButtonStyle(
           elevation: WidgetStateProperty.all<double>(5.0),
           padding: WidgetStateProperty.all<EdgeInsets>(
             const EdgeInsets.symmetric(horizontal: kborder, vertical: 12.0),
           ),
-          backgroundColor: WidgetStateProperty.all<Color>(Colors.yellow),
+          backgroundColor: WidgetStateProperty.all<Color>(ksecondary),
           shape: WidgetStatePropertyAll<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kborder),
