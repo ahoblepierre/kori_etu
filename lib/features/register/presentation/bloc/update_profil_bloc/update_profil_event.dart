@@ -29,3 +29,7 @@ class UpdateProfilLoadParentingEvent extends UpdateProfilEvent {
 class UpdateProfilLoadWaitingEvent extends UpdateProfilEvent {
   const UpdateProfilLoadWaitingEvent();
 }
+
+class UpdateProfilLoadWaitingEventEtu extends UpdateProfilEvent {
+  const UpdateProfilLoadWaitingEventEtu();
+}

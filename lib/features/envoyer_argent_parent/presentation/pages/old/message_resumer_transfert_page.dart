@@ -5,9 +5,31 @@ import 'package:kori_etu/components/primary_button.dart';
 import 'package:kori_etu/config/routes/route_name.dart';
 import 'package:kori_etu/config/size_config.dart';
 import 'package:kori_etu/config/theme/style.dart';
+import 'package:logger/logger.dart';
 
-class MessageResumerTransfertPage extends StatelessWidget {
+class MessageResumerTransfertPage extends StatefulWidget {
   const MessageResumerTransfertPage({super.key});
+
+  @override
+  State<MessageResumerTransfertPage> createState() =>
+      _MessageResumerTransfertPageState();
+}
+
+class _MessageResumerTransfertPageState
+    extends State<MessageResumerTransfertPage> {
+  Map<String, dynamic> data = {};
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+
+    final state = GoRouterState.of(context);
+
+    data = state.uri.queryParameters;
+
+    Logger().f(data);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +64,14 @@ class MessageResumerTransfertPage extends StatelessWidget {
                   ),
                   children: <TextSpan>[
                     TextSpan(
-                      text: ' 100.000 Fcfa',
+                      text: data["amountTotal"],
                       style: koriTextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     TextSpan(
-                      text: " à Daniel JHONSON a été envoyé avec succès.",
+                      text: " à ${data['userName']} a été envoyé avec succès.",
                       style: koriTextStyle(
                         color: Colors.grey,
                         fontFamily: ksecondFont,

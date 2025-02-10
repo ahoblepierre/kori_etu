@@ -65,7 +65,7 @@ class BiometricPage extends StatelessWidget {
                     const Spacer(),
                     PrimaryButton(
                       isLoading: state is ActiveBiometricLoaded,
-                      labelButton: "Activer maintenat",
+                      labelButton: "Activer maintenant",
                       onPressed: () {
                         koriDialog(
                           context,

@@ -7,6 +7,8 @@ import 'package:kori_etu/features/envoyer_argent_parent/presentation/pages/envoy
 import 'package:kori_etu/features/envoyer_argent_parent/presentation/pages/old/envoyer_par_carte.dart';
 import 'package:kori_etu/features/envoyer_argent_parent/presentation/pages/old/message_resumer_transfert_page.dart';
 import 'package:kori_etu/features/envoyer_argent_parent/presentation/pages/resume_transfert.dart';
+import 'package:kori_etu/features/envoyer_argent_parent/presentation/pages/transfert_argent_page.dart';
+import 'package:kori_etu/features/envoyer_argent_parent/presentation/pages/transfert_argent_service_cart.dart';
 import 'package:kori_etu/features/introduction/presentation/pages/get_started_page.dart';
 import 'package:kori_etu/features/introduction/presentation/pages/onboarding.dart';
 import 'package:kori_etu/features/introduction/presentation/pages/onboarding_end.dart';
@@ -167,10 +169,12 @@ final router = GoRouter(
       name: DASHBOARD,
       builder: (context, state) => const DashboardPage(),
       redirect: (context, state) {
-        if (storage.isDateOlderThan5Minutes) {
-          return "/authenticated";
-        }
         return null;
+
+        // if (storage.isDateOlderThan5Minutes) {
+        //   return "/authenticated";
+        // }
+        // return null;
       },
       routes: <RouteBase>[
         GoRoute(
@@ -188,7 +192,7 @@ final router = GoRouter(
         GoRoute(
           path: "resumer_transfert",
           name: RESUMERTRANSFERT,
-          builder: (context, state) => ResumeTransfert(),
+          builder: (context, state) => const ResumeTransfert(),
           routes: const <RouteBase>[],
         ),
         GoRoute(
@@ -200,13 +204,25 @@ final router = GoRouter(
         GoRoute(
           path: "identification",
           name: IDENTIFICATION,
-          builder: (context, state) => IdentificatonPage(),
+          builder: (context, state) => const IdentificatonPage(),
           routes: const <RouteBase>[],
         ),
         GoRoute(
           path: "identification_seconde",
           name: IDENTIFICATIONSECONDE,
           builder: (context, state) => const IdentificationSecondePage(),
+          routes: const <RouteBase>[],
+        ),
+        GoRoute(
+          path: "transfert_argent",
+          name: TRANSFERTARGENT,
+          builder: (context, state) => const TransfertArgentPage(),
+          routes: const <RouteBase>[],
+        ),
+        GoRoute(
+          path: "transfert_service_cart",
+          name: TRANSFERTSERVICECARTE,
+          builder: (context, state) => const TransfertArgentServiceCart(),
           routes: const <RouteBase>[],
         )
       ],

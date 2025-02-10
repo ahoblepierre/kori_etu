@@ -60,6 +60,11 @@ class StorageService {
     return (DateTime.now().difference(storedDate)).inMinutes > 5;
   }
 
+  // Marquer KYC comme complété
+  void setCompleteKYC() => _box.write(identification, true);
+
+  bool getKYC() => _box.read<bool>(identification) ?? false;
+
   /// Getter générique pour récupérer une valeur du cache
   T? getCache<T>(String key) => _box.read<T>(key);
 

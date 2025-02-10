@@ -204,6 +204,10 @@ class _SetPinCodeState extends State<SetPinCode>
                 context.read<CodePinBloc>().add(
                       AuthWithCodePinEvent(enteredCode: pin),
                     );
+                // Future.delayed(const Duration(seconds: 10), () {
+                //   if (!context.mounted) return;
+
+                // });
               } else {
                 context.read<CodePinBloc>().add((ErreurCodePinEvent()));
                 setState(() {

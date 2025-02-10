@@ -14,6 +14,7 @@ import 'package:kori_etu/config/theme/style.dart';
 import 'package:kori_etu/core/resources/country.dart';
 import 'package:kori_etu/core/resources/devce_info.dart';
 import 'package:kori_etu/core/resources/scaffold_message_enum.dart';
+import 'package:kori_etu/core/services/storage_service.dart';
 import 'package:kori_etu/core/utils/utils.dart';
 import 'package:kori_etu/core/utils/utils_function.dart';
 import 'package:kori_etu/features/login/presentation/widgets/link_to_create_account.dart';
@@ -21,7 +22,6 @@ import 'package:kori_etu/features/login/presentation/widgets/social_media_icon.d
 import 'package:kori_etu/features/register/data/models/register_user.dart';
 import 'package:kori_etu/features/register/presentation/bloc/register_bloc/register_bloc.dart';
 import 'package:kori_etu/features/register/presentation/widgets/register_app_bar.dart';
-import 'package:logger/logger.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -33,6 +33,8 @@ class Register extends StatefulWidget {
 late TextEditingController _textEditingController;
 late FocusNode _focusNodeEmail;
 late FocusNode _focusNodeTelephone;
+late TextEditingController _nameController;
+late TextEditingController _lastnameController;
 
 bool showFirstField = true;
 
@@ -57,6 +59,8 @@ late DeviceInfo deviceInfo;
 
 final _registerForm = GlobalKey<FormState>();
 
+bool loading = false;
+
 class _RegisterState extends State<Register> {
   @override
   void initState() {
@@ -68,6 +72,8 @@ class _RegisterState extends State<Register> {
     _focusNodeEmail = FocusNode();
     _focusNodeTelephone = FocusNode();
     _textEditingController = TextEditingController();
+    _nameController = TextEditingController();
+    _lastnameController = TextEditingController();
   }
 
   @override
@@ -76,6 +82,8 @@ class _RegisterState extends State<Register> {
     _focusNodeEmail.dispose();
     _focusNodeTelephone.dispose();
     _textEditingController.dispose();
+    _nameController.dispose();
+    _lastnameController.dispose();
   }
 
   Future<void> getUserIng() async {
@@ -201,46 +209,44 @@ class _RegisterState extends State<Register> {
                               child: child,
                             );
                           },
-                          child: showFirstField
-                              ? InputTextFormFiled(
-                                  controller: _textEditingController,
-                                  focusNode: _focusNodeEmail,
-                                  labelText: "Adresse Email",
-                                  hintText: "Email adresse",
-                                  keyboardType: TextInputType.emailAddress,
-                                  onChanged: (controller) {
-                                    // if (controller.isNotEmpty &&
-                                    //     isInt(controller)) {
-                                    //   _textEditingController.text = '';
-                                    //   context.read<RegisterBloc>().add(
-                                    //         const ChangeInputEvent(false),
-                                    //       );
-                                    //   _focusNodeTelephone.requestFocus();
-                                    // }
-                                  },
-                                )
-                              : TelephoneTextFormField(
-                                  controller: _textEditingController,
-                                  focusNode: _focusNodeTelephone,
-                                  countryCode: (dialCode) {
-                                    telephoneDialCode = dialCode;
-                                  },
-                                  // onChanged: (controller) {
-                                  //   if (controller.isEmpty ||
-                                  //       (controller.length >= 3 &&
-                                  //           isString(controller))) {
-                                  //     context.read<RegisterBloc>().add(
-                                  //           const ChangeInputEvent(true),
-                                  //         );
-                                  //     _textEditingController.text = '';
-                                  //     _focusNodeEmail.requestFocus();
-                                  //   }
-                                  // },
-                                ),
+                          child: Column(
+                            children: [
+                              InputTextFormFiled(
+                                controller: _nameController,
+                                labelText: "Votre Nom ",
+                                hintText: "Votre Nom",
+                                keyboardType: TextInputType.text,
+                                onChanged: (controller) {},
+                              ),
+                              InputTextFormFiled(
+                                controller: _lastnameController,
+                                labelText: "Votre Prénom ",
+                                hintText: "Votre Prénom",
+                                keyboardType: TextInputType.text,
+                                onChanged: (controller) {},
+                              ),
+                              showFirstField
+                                  ? InputTextFormFiled(
+                                      controller: _textEditingController,
+                                      focusNode: _focusNodeEmail,
+                                      labelText: "Adresse Email",
+                                      hintText: "Email adresse",
+                                      keyboardType: TextInputType.emailAddress,
+                                      onChanged: (controller) {},
+                                    )
+                                  : TelephoneTextFormField(
+                                      controller: _textEditingController,
+                                      focusNode: _focusNodeTelephone,
+                                      countryCode: (dialCode) {
+                                        telephoneDialCode = dialCode;
+                                      },
+                                    ),
+                            ],
+                          ),
                         );
                       },
                     ),
-                    SizedBox(height: SizeConfig.blockHorizontal! * 3),
+                    SizedBox(height: SizeConfig.blockHorizontal! * 0.2),
 
                     // widget pour choisir sa localisation
                     PaysTextFormField(onCountryChange: (country) {
@@ -281,18 +287,36 @@ class _RegisterState extends State<Register> {
                         );
                       },
                     ),
-                    SizedBox(height: SizeConfig.blockVertical! * 20),
+                    SizedBox(height: SizeConfig.blockVertical! * 3),
 
                     // button pour valider l'inscription ou la connexion
                     BlocBuilder<RegisterBloc, RegisterState>(
                       builder: (context, state) {
                         return PrimaryButton(
-                          isLoading: state is RegisterLoadingState,
+                          isLoading: loading,
                           labelButton: "Continuer",
                           onPressed: () {
                             if (_registerForm.currentState!.validate()) {
-                              final user = getUser();
-                              Logger().i(user.toString());
+                              setState(() {
+                                loading = true;
+                              });
+                              StorageService().setCache(
+                                  'emailOrPhone', _textEditingController.text);
+
+                              StorageService()
+                                  .setCache('name', _nameController.text);
+                              StorageService().setCache(
+                                  'lastName', _lastnameController.text);
+
+                              StorageService()
+                                  .saveAuthToken(generateRandomString());
+
+                              Future.delayed(const Duration(seconds: 10));
+
+                              setState(() {
+                                loading = false;
+                              });
+
                               context.pushNamed(
                                 CONFIRMEMAIL,
                                 queryParameters: {

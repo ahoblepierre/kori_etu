@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:kori_etu/core/services/storage_service.dart';
 import 'package:kori_etu/features/login/data/data_source/local_auth.dart';
 import 'package:kori_etu/features/register/domain/usescases/active_biometric_usecase.dart';
 

@@ -78,6 +78,8 @@ class _AuthenticatedPageState extends State<AuthenticatedPage>
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
+    print("iic");
+
     return BlocProvider(
       create: (context) => BlocProvider.of<AuthBloc>(context),
       child: Scaffold(

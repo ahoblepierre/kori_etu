@@ -17,6 +17,9 @@ class InputTextFormFiled extends StatelessWidget {
     this.prefixIcon,
     this.focusNode,
     this.inputFormatters,
+    this.maxLength,
+    this.minLines,
+    this.maxLines = 1,
   });
 
   final String hintText;
@@ -26,6 +29,9 @@ class InputTextFormFiled extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final FocusNode? focusNode;
+  final int? maxLength;
+  final int? minLines;
+  final int? maxLines;
 
   final Function(String)? onChanged;
 
@@ -47,6 +53,9 @@ class InputTextFormFiled extends StatelessWidget {
         TextFormField(
           controller: controller,
           focusNode: focusNode,
+          maxLength: maxLength,
+          minLines: minLines,
+          maxLines: maxLines,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
           keyboardType: keyboardType ?? TextInputType.text,
           inputFormatters: const [],
@@ -67,7 +76,7 @@ class InputTextFormFiled extends StatelessWidget {
             return null;
           },
           decoration: InputDecoration(
-            fillColor: Colors.white,
+            fillColor: kscaffoldBackgroundColor,
             filled: true,
             hintText: hintText,
             hintStyle: TextStyle(

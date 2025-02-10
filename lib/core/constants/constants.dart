@@ -22,3 +22,6 @@ const String authEmail = "authEmail";
 
 /// biometric
 const biometrieActif = "biometrieActif";
+
+// KYC
+const identification = "identification";

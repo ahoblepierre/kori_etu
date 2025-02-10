@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -46,11 +48,12 @@ Future<void> koriDialog(
   BuildContext context, {
   required double height,
   required String title,
-  required String subtitle,
+  String? subtitle,
   required String actionText,
   required String cancellText,
   required Function()? onSubmit,
   Function()? onDismiss,
+  Widget? body,
 }) async {
   return showDialog(
       context: context,
@@ -75,13 +78,15 @@ Future<void> koriDialog(
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(
-                  subtitle,
-                  style: koriTextStyle(
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                  ),
-                ),
+                subtitle != null
+                    ? Text(
+                        subtitle,
+                        style: koriTextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black,
+                        ),
+                      )
+                    : body!,
                 Row(
                   children: [
                     Expanded(
@@ -212,5 +217,15 @@ void koriScaffoldMessage(
   ));
 }
 
+String generateRandomString() {
+  const String chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  Random random = Random();
 
+  return List.generate(25000, (index) => chars[random.nextInt(chars.length)])
+      .join();
+}
 
+List<String> remitters = [];
+
+List<String> transactions = [];

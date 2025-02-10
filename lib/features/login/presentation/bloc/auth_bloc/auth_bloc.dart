@@ -103,6 +103,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ipAddress: '',
         lastConnected: null);
 
+      final storage = StorageService();
+      storage.setIsAuthenticated(); // set is authenticated
+      storage.setIsDateNowToLogin(); // set is date now to login
+
     emit(AuthSuccessState(authSessionModel: auth));
 
     // httpDataResponse.fold((dataFail) {

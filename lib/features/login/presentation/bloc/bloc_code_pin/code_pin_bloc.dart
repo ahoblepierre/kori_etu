@@ -6,7 +6,6 @@ import 'package:kori_etu/core/constants/constants.dart';
 import 'package:kori_etu/core/services/storage_service.dart';
 import 'package:kori_etu/features/login/domain/uses_case/login_uses_case.dart';
 import 'package:kori_etu/features/register/data/models/register_user.dart';
-import 'package:logger/logger.dart';
 
 part 'code_pin_event.dart';
 part 'code_pin_state.dart';
@@ -57,7 +56,13 @@ class CodePinBloc extends Bloc<CodePinEvent, CodePinState> {
       country: "",
       password: event.enteredCode,
     );
-    final dataResponse = await _loginUsesCase(userLogin);
+    // final dataResponse = await _loginUsesCase(userLogin);
+
+    storage.setIsAuthenticated(); // set isAuthenticated
+
+    storage.setIsDateNowToLogin(); // set isDateNowToLogin
+
+    storage.setCache("pin", event.enteredCode);
 
     emit(CodePinSuccessState());
 

@@ -11,7 +11,11 @@ final class UpdateProfilInitial extends UpdateProfilState {}
 
 final class UpdateProfilLoadingState extends UpdateProfilState {}
 
-final class UpdateProfilSuccessState extends UpdateProfilState {}
+final class UpdateProfilSuccessState extends UpdateProfilState {
+  final bool status;
+
+  const UpdateProfilSuccessState({required this.status});
+}
 
 final class UpdateProfilFailureState extends UpdateProfilState {
   final String error;

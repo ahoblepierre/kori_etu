@@ -54,18 +54,22 @@ class WelcomeEtudiantPage extends StatelessWidget {
                 PrimaryButton(
                   labelButton: "Acceder à mon wallet Kori",
                   onPressed: () {
-                    context.goNamed(DASHBOARDETUDIANT);
+                    context.goNamed(DASHBOARD);
                   },
                 ),
                 SizedBox(height: SizeConfig.blockHorizontal! * 5),
                 PrimaryButton(
                   labelButton: "Activer / Commander une carte",
-                  onPressed: () {},
+                  onPressed: () {
+                    context.goNamed(TRANSFERTSERVICECARTE);
+                  },
                 ),
                 SizedBox(height: SizeConfig.blockHorizontal! * 5),
                 PrimaryButton(
                   labelButton: "Mettre à jour mon profil",
-                  onPressed: () {},
+                  onPressed: () {
+                    context.goNamed(IDENTIFICATION);
+                  },
                 )
               ],
             ),

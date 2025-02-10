@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:kori_etu/config/theme/dark_theme.dart';
 import 'package:kori_etu/config/theme/light_theme.dart';
+import 'package:kori_etu/controller/transaction_controller.dart';
 import 'package:kori_etu/core/resources/my_bloc_observer.dart';
 import 'package:kori_etu/features/introduction/presentation/bloc/onboarding_bloc.dart';
 import 'package:kori_etu/features/login/presentation/bloc/auth_bloc/auth_bloc.dart';
@@ -29,7 +31,9 @@ void main() async {
   // await Firebase.initializeApp();
 
   // Initialisez l'observateur personnalisé
-  Bloc.observer = MyBlocObserver();
+  // Bloc.observer = MyBlocObserver();
+
+  Get.lazyPut(() => TransactionController());
 
   runApp(const MyApp());
 }
@@ -78,13 +82,16 @@ class _MyAppState extends State<MyApp> {
         // BlocProvider<EmailVerifiedBloc>(
         //     create: (context) => koriSl<EmailVerifiedBloc>()),
       ],
-      child: MaterialApp.router(
+      child: GetMaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Kori Etu',
         theme: lightTheme,
         darkTheme: darkTheme,
         themeMode: ThemeMode.system,
-        routerConfig: router,
+        routeInformationParser: router.routeInformationParser,
+        routerDelegate: router.routerDelegate,
+        routeInformationProvider: router.routeInformationProvider,
+        // routerConfig: router,
       ),
     );
   }

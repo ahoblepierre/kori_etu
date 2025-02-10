@@ -6,7 +6,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kori_etu/features/register/domain/entities/profil_entity.dart';
 import 'package:kori_etu/features/register/domain/usescases/verify_email_usecase.dart';
-import 'package:logger/logger.dart';
 
 part 'email_verified_event.dart';
 part 'email_verified_state.dart';
@@ -22,7 +21,7 @@ class EmailVerifiedBloc extends Bloc<EmailVerifiedEvent, EmailVerifiedState> {
 
   FutureOr<void> emailVerifiedFectchEvent(
       EmailVerifiedFectchEvent event, Emitter<EmailVerifiedState> emit) async {
-    final dataStateResponse = await _verifyEmailUseCase(event.token);
+    // final dataStateResponse = await _verifyEmailUseCase(event.token);
     emit(EmailVerifiedInitial());
 
     ProfilEntity profil = ProfilEntity(

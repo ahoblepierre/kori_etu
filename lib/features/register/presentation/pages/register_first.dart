@@ -37,7 +37,11 @@ class RegisterFirst extends StatelessWidget {
         child: BlocListener<UpdateProfilBloc, UpdateProfilState>(
           listener: (context, state) {
             if (state is UpdateProfilSuccessState) {
-              context.goNamed(WELCOMEPARENT);
+              if (state.status) {
+                context.goNamed(WELCOMETUDIANT);
+              } else {
+                context.goNamed(WELCOMEPARENT);
+              }
             }
             if (state is UpdateProfilFailureState) {
               koriScaffoldMessage(context, state.error, statut: Statut.ERROR);

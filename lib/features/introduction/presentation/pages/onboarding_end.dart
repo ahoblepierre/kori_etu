@@ -40,7 +40,7 @@ class OnboardingEnd extends StatelessWidget {
               current is OnboardingCompletedState,
           child: Column(
             children: [
-              const ChangeLanguageWidget(color: Colors.white),
+              // const ChangeLanguageWidget(color: Colors.white),
               SizedBox(height: SizeConfig.blockVertical! * 5),
               const Spacer(),
               Container(

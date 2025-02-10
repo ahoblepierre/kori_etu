@@ -17,10 +17,12 @@ class TelephoneTextFormField extends StatefulWidget {
     this.controller,
     this.focusNode,
     this.countryCode,
+    this.labelText,
   });
   final TextEditingController? controller;
   final FocusNode? focusNode;
   void Function(String)? countryCode;
+  final String? labelText;
 
   @override
   State<TelephoneTextFormField> createState() => _TelephoneTextFormFieldState();
@@ -63,9 +65,9 @@ class _TelephoneTextFormFieldState extends State<TelephoneTextFormField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Numéro de téléphone",
-          style: TextStyle(
+        Text(
+          widget.labelText ?? "Numéro de téléphone",
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 15,
           ),

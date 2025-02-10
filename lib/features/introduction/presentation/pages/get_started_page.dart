@@ -18,7 +18,7 @@ class GetStartedPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const ChangeLanguageWidget(),
+            // const ChangeLanguageWidget(),
             const Spacer(),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: kespacing),

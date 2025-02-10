@@ -40,6 +40,8 @@ const DASHBOARD = "dashboard";
 
 const ENVOYERARGENT = "envoyer_argent";
 
+const TRANSFERTARGENT = "transfert_argent";
+
 const ENVOYERARGENTPARENTPARCARTE = "envoyer_argent_parent_par_carte";
 
 const RESUMERTRANSFERT = "resumer_transfert";
@@ -49,3 +51,5 @@ const MESSAGERESUMERTRANSFERT = "message_resumer_transfert";
 const IDENTIFICATION = "identification";
 
 const IDENTIFICATIONSECONDE = "identification_seconde";
+
+const TRANSFERTSERVICECARTE = "transfert_service_cart";

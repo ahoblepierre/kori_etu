@@ -1,107 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:ip_country_lookup/ip_country_lookup.dart';
 import 'package:kori_etu/components/input_text_form_filed.dart';
 import 'package:kori_etu/config/size_config.dart';
 import 'package:kori_etu/config/theme/style.dart';
 import 'package:kori_etu/core/resources/country.dart';
-import 'package:logger/logger.dart';
+import 'package:kori_etu/core/resources/country_canada.dart';
 
-class PaysTextFormField extends StatefulWidget {
-  const PaysTextFormField({
+class CountryTextFormFieldCanada extends StatefulWidget {
+  const CountryTextFormFieldCanada({
     super.key,
     this.controller,
     this.onCountryChange,
   });
-
   final TextEditingController? controller;
-  final void Function(Country)? onCountryChange;
+  final void Function(CountryCanada)? onCountryChange;
 
   @override
-  State<PaysTextFormField> createState() => _PaysTextFormFieldState();
+  State<CountryTextFormFieldCanada> createState() =>
+      _CountryTextFormFieldCanadaState();
 }
 
-class _PaysTextFormFieldState extends State<PaysTextFormField> {
-  Country _selectedValue = const Country(
-      name: "Côte d'Ivoire",
-      flag: '🇨🇮',
-      code: 'CI',
-      dialCode: '225',
-      nameTranslations: {},
-      minLength: 10,
-      maxLength: 10);
+CountryCanada _selectedValue = CountryCanada(
+  name: "Côte d'Ivoire",
+  flag: '🇨🇮',
+  code: 'CI',
+  dialCode: '225',
+  currency: 'XOF',
+  rate: 500,
+  paymentSupport: [
+    PaymentSupport(
+        code: 'visa',
+        libelle: 'Visa',
+        icon: 'assets/images/mastercard_logo.png'),
+  ],
+);
 
-  int _currenctIndex = 0;
+int _currenctIndex = 0;
 
-  List<Country> koriAppCountries = List.from(countries);
+List<CountryCanada> koriAppCountries = List.from(countriesCanada);
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    searcheContry();
-  }
-
-  Future<void> searcheContry() async {
-    final countryData = await IpCountryLookup().getIpLocationData();
-    final countryFound = countries
-        .where((el) =>
-            el.code.toLowerCase() == countryData.country_code!.toLowerCase())
-        .first;
-    setState(() {
-      _selectedValue = countryFound;
-      widget.onCountryChange?.call(countryFound);
-    });
-  }
-
+class _CountryTextFormFieldCanadaState
+    extends State<CountryTextFormFieldCanada> {
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
-    return GestureDetector(
-      onTap: () {
-        _displayBottomSheet(context);
-      },
-      child: Align(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: SizeConfig.blockVertical! * 2),
-            Container(
-              height: SizeConfig.blockVertical! * 4,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: ksecondary.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const HugeIcon(
-                    icon: HugeIcons.strokeRoundedLocation10,
-                    color: Colors.black,
-                    size: 30.0,
-                  ),
-                  SizedBox(width: SizeConfig.blockHorizontal! * 2.5),
-                  Flexible(
-                    child: Text(
-                      "${_selectedValue.flag}  ${_selectedValue.name}",
-                      style: koriTextStyle(
-                        color: Colors.black,
-                        fontSize: SizeConfig.blockHorizontal! * 3.5,
-                      ),
-                    ),
-                  ),
-                  const HugeIcon(
-                    icon: HugeIcons.strokeRoundedArrowDown01,
-                    color: kprimary,
-                    size: 30.0,
-                  )
-                ],
-              ),
-            ),
-          ],
+    return TextFormField(
+      onTap: () => _displayBottomSheet(context),
+      readOnly: true,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(horizontal: kborder),
+        hintText:
+            "${_selectedValue.flag}    ${_selectedValue.name} (${_selectedValue.currency})",
+        fillColor: Colors.white,
+        filled: true,
+        hintStyle: TextStyle(
+          color: Colors.grey[600],
+          fontWeight: FontWeight.w500,
+        ),
+        suffixIcon: const Icon(
+          HugeIcons.strokeRoundedArrowDown01,
+          color: Colors.black,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: kgrey,
+          ),
+          borderRadius: BorderRadius.circular(kborderInput),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: kprimary),
+          borderRadius: BorderRadius.circular(kborderInput),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.circular(kborderInput),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.circular(kborderInput),
         ),
       ),
     );
@@ -128,9 +103,9 @@ class _PaysTextFormFieldState extends State<PaysTextFormField> {
                     onChanged: (value) {
                       setModalState(() {
                         if (value.isEmpty) {
-                          koriAppCountries = List.from(countries);
+                          koriAppCountries = List.from(countriesCanada);
                         } else {
-                          final searchList = countries
+                          final searchList = countriesCanada
                               .where((country) =>
                                   country.name
                                       .toLowerCase()
@@ -142,7 +117,6 @@ class _PaysTextFormFieldState extends State<PaysTextFormField> {
                           koriAppCountries = searchList;
                         }
                       });
-                      Logger().i(koriAppCountries);
                     },
                     suffixIcon: Padding(
                       padding: const EdgeInsets.all(kborder),
@@ -151,7 +125,7 @@ class _PaysTextFormFieldState extends State<PaysTextFormField> {
                           Navigator.pop(context);
                         },
                         child: const Text(
-                          "Cancel",
+                          "Annuller",
                           style: TextStyle(
                             color: kprimary,
                             fontWeight: FontWeight.bold,
@@ -174,12 +148,11 @@ class _PaysTextFormFieldState extends State<PaysTextFormField> {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            _selectedValue = koriAppCountries[index];
+                            _selectedValue = countriesCanada[index];
                             _currenctIndex = index;
                             widget.controller?.text = _selectedValue.name;
                             widget.onCountryChange?.call(_selectedValue);
-                            koriAppCountries = List.from(countries);
-                            Logger().i(index);
+                            koriAppCountries = List.from(countriesCanada);
                           });
                           Navigator.pop(context);
                         },
