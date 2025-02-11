@@ -83,16 +83,22 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
             !widget.identification
                 ? Row(
                     children: [
-                      Text(
-                        "Identifiez votre compte Kori. ",
-                        style: koriTextStyle(
-                          color: ksecondary.withOpacity(0.7),
-                          fontSize: 20,
+                      Flexible(
+                        flex: 3,
+                        child: Text(
+                          "Identifiez votre compte Kori. ",
+                          style: koriTextStyle(
+                            color: ksecondary.withOpacity(0.7),
+                            fontSize: 19,
+                          ),
                         ),
                       ),
-                      Text(
-                        " Identification ",
-                        style: koriTextStyle(color: ksecondary),
+                      Flexible(
+                        flex: 2,
+                        child: Text(
+                          " Identification ",
+                          style: koriTextStyle(color: ksecondary),
+                        ),
                       ),
                       IconButton(
                         padding: EdgeInsets.zero,

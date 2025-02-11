@@ -7,7 +7,6 @@ import 'package:kori_etu/config/routes/route_name.dart';
 import 'package:kori_etu/config/size_config.dart';
 import 'package:kori_etu/config/theme/style.dart';
 import 'package:kori_etu/features/introduction/presentation/bloc/onboarding_bloc.dart';
-import 'package:kori_etu/features/introduction/presentation/widgets/change_language_widget.dart';
 
 class OnboardingEnd extends StatelessWidget {
   const OnboardingEnd({super.key});

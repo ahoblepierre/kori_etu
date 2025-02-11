@@ -120,6 +120,7 @@ class _IdentificationSecondePageState extends State<IdentificationSecondePage> {
   }
 }
 
+// ignore: must_be_immutable
 class ChoiceImage extends StatelessWidget {
   ChoiceImage({
     super.key,

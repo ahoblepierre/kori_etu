@@ -68,7 +68,7 @@ class _TransfertArgentServiceCartState
                   setState(() {
                     isLoadingCreateCarte = false;
                   });
-                  context.goNamed(DASHBOARD);
+                  context.pushNamed(DASHBOARD);
                 });
               },
             ),
@@ -98,7 +98,7 @@ class _TransfertArgentServiceCartState
                     });
                   },
                   onDismiss: () => Navigator.of(context).pop(),
-                  height: SizeConfig.screenWidth! * 1.1,
+                  height: SizeConfig.screenWidth! * 1.3,
                   body: Column(
                     children: [
                       InputTextFormFiled(
@@ -124,7 +124,7 @@ class _TransfertArgentServiceCartState
                           HugeIcons.strokeRoundedCity03,
                         ),
                       ),
-                      SizedBox(height: SizeConfig.blockHorizontal! * 10.5),
+                      SizedBox(height: SizeConfig.blockHorizontal! * 9.5),
                     ],
                   ),
                   actionText: 'Valider',

@@ -84,3 +84,21 @@ class CreditCardNumberFormatter extends TextInputFormatter {
     );
   }
 }
+
+double addOnePercent(dynamic amount) {
+  // Vérifier si amount est une String et tenter de la convertir en double
+  if (amount is String) {
+    amount = double.tryParse(amount);
+    if (amount == null) {
+      throw ArgumentError("Le montant doit être un nombre valide.");
+    }
+  }
+
+  // Vérifier si amount est bien un double après conversion
+  if (amount is! double) {
+    throw ArgumentError(
+        "Le montant doit être un nombre (double) ou une chaîne convertible en nombre.");
+  }
+
+  return amount + (amount * 0.01);
+}

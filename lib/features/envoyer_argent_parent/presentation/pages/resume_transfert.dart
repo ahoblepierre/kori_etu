@@ -53,7 +53,7 @@ class _ResumeTransfertState extends State<ResumeTransfert> {
       name: data["userName"],
       description: data["motif"],
       createdAt: DateTime.now(),
-      amount: data["amountTotal"],
+      amount: "${data["total"]} XOF",
     );
     transactionController.addTransaction(t);
   }
@@ -83,6 +83,7 @@ class _ResumeTransfertState extends State<ResumeTransfert> {
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
+                border: Border.all(color: Colors.grey),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,10 +91,25 @@ class _ResumeTransfertState extends State<ResumeTransfert> {
                   /// First Ligne
                   SizedBox(height: SizeConfig.blockHorizontal! * 3.5),
 
-                  /// Other Line
-                  ResumeInfo(title: "Montant net", value: data['amount']),
+                  ResumeInfo(
+                      title: "Nom du bénéficiaire ", value: data['userName']),
+                  ResumeInfo(
+                      title: "Tél du bénéficiaire ", value: data['phone']),
+                  ResumeInfo(
+                      title: "Pays du bénéficiaire ", value: data['country']),
 
-                  ResumeInfo(title: "Frais", value: data['frais']),
+                  ResumeInfo(
+                    title: "Adresse du bénéficiaire ",
+                    value: data['adresse'],
+                  ),
+
+                  ResumeInfo(title: "Motif", value: data['motif']),
+                  const Divider(),
+
+                  /// Other Line
+                  ResumeInfo(title: "Montant net", value: data['amountTotal']),
+
+                  ResumeInfo(title: "Frais", value: "${data['frais']} %"),
 
                   ResumeInfo(title: "Taux de change", value: data['taux']),
 
@@ -122,7 +138,7 @@ class _ResumeTransfertState extends State<ResumeTransfert> {
                     ),
                     alignment: AlignmentDirectional.center,
                     child: Text(
-                      data['amountTotal'],
+                      "${data['total']} XOF",
                       style: koriTextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: SizeConfig.blockHorizontal! * 5.5,
@@ -193,7 +209,6 @@ class _ResumeTransfertState extends State<ResumeTransfert> {
                 },
               ),
             ),
-            SizedBox(height: SizeConfig.blockVertical! * 5.5),
           ],
         ),
       ),

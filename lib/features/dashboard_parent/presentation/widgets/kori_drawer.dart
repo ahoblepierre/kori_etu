@@ -1,17 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:kori_etu/components/kori_loading.dart';
 import 'package:kori_etu/config/routes/route_name.dart';
 import 'package:kori_etu/config/theme/style.dart';
 import 'package:kori_etu/core/services/storage_service.dart';
 
-class KoriDrawer extends StatelessWidget {
+class KoriDrawer extends StatefulWidget {
   const KoriDrawer({
     super.key,
   });
 
   @override
+  State<KoriDrawer> createState() => _KoriDrawerState();
+}
+
+class _KoriDrawerState extends State<KoriDrawer> {
+  StorageService storageService = StorageService();
+  bool isLoading = false;
+  String email = "";
+  String name = "";
+  String lastName = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    email = storageService.getCache("emailOrPhone");
+    name = storageService.getCache("name");
+    lastName = storageService.getCache("lastName");
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(name);
+    print(lastName);
+
     return Drawer(
       backgroundColor: kscaffoldBackgroundColor,
       child: Column(
@@ -20,12 +44,12 @@ class KoriDrawer extends StatelessWidget {
             decoration: const BoxDecoration(
               color: kprimary,
             ),
-            accountName: Text("John Doe",
+            accountName: Text("$name $lastName",
                 style: koriTextStyle(
                   color: ksecondaryLigth,
                   fontSize: 20,
                 )),
-            accountEmail: Text("john.doe@example.com",
+            accountEmail: Text(email,
                 style: koriTextStyle(
                   color: ksecondaryLigth,
                   fontSize: 15,
@@ -86,11 +110,27 @@ class KoriDrawer extends StatelessWidget {
                   fontSize: 20,
                 )),
             onTap: () {
-              StorageService storageService = StorageService();
+              setState(() {
+                isLoading = true;
+              });
               storageService.removeAllCache();
+              Future.delayed(const Duration(seconds: 2), () {
+                setState(() {
+                  isLoading = true;
+                });
+                if (!context.mounted) return;
+                context.pushReplacementNamed(REGISTER);
+              });
               // Navigator.pop(context);
-              context.pushReplacementNamed(REGISTER);
             },
+          ),
+
+          Visibility(
+            replacement: const Text(""),
+            visible: isLoading,
+            child: const Center(
+              child: KoriLoading(),
+            ),
           ),
         ],
       ),

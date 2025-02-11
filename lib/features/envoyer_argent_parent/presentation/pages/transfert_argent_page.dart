@@ -14,6 +14,7 @@ import 'package:kori_etu/config/size_config.dart';
 import 'package:kori_etu/config/theme/style.dart';
 import 'package:kori_etu/core/resources/country_canada.dart';
 import 'package:kori_etu/core/resources/user.dart';
+import 'package:kori_etu/core/utils/utils_function.dart';
 import 'package:logger/logger.dart';
 
 // ignore: must_be_immutable
@@ -26,6 +27,8 @@ class TransfertArgentPage extends StatefulWidget {
 
 class _TransfertArgentPageState extends State<TransfertArgentPage> {
   bool isLoading = false;
+
+  bool saveBenefInfo = false;
 
   var cardController = MaskedTextController(mask: '0000 0000 0000 0000');
 
@@ -43,8 +46,6 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
   final TextEditingController adresseController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
-
-
   User userSelect = User(
     name: "Koffi",
     lastName: "Yao",
@@ -54,18 +55,20 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
     phone: "+225 07 58 96 32",
   );
 
-  var senderMoneycontroller = MoneyMaskedTextController(
-    decimalSeparator: '.',
-    thousandSeparator: ',',
-    rightSymbol: ' F cfa',
-    precision: 0,
-    initialValue: 0.0,
-  );
+  TextEditingController senderMoneycontroller = TextEditingController();
+
+  // var senderMoneycontroller = MoneyMaskedTextController(
+  //   decimalSeparator: '.',
+  //   thousandSeparator: ',',
+  //   rightSymbol: ' F cfa',
+  //   precision: 0,
+  //   initialValue: 0.0,
+  // );
 
   CountryCanada selectCountryValue = CountryCanada(
       name: '',
       currency: 'XOF',
-      rate: 600,
+      rate: 1,
       flag: '',
       code: '',
       dialCode: '',
@@ -97,12 +100,14 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
         ),
       ]);
 
-  var receiverMoneycontroller = MoneyMaskedTextController(
-    decimalSeparator: '.',
-    thousandSeparator: ',',
-    rightSymbol: 'XOF',
-    precision: 0,
-  );
+  // var receiverMoneycontroller = MoneyMaskedTextController(
+  //   decimalSeparator: '.',
+  //   thousandSeparator: ',',
+  //   rightSymbol: '',
+  //   precision: 0,
+  // );
+
+  TextEditingController receiverMoneycontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -142,12 +147,12 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
                       Logger().f(value.toString());
                       countryController.text = value.name;
                       modeDePaiement = value.paymentSupport[0].code;
-                      receiverMoneycontroller = MoneyMaskedTextController(
-                        decimalSeparator: '.',
-                        thousandSeparator: ',',
-                        rightSymbol: value.currency,
-                        precision: 0,
-                      );
+                      // receiverMoneycontroller = MoneyMaskedTextController(
+                      //   decimalSeparator: '.',
+                      //   thousandSeparator: ',',
+                      //   rightSymbol: value.currency,
+                      //   precision: 0,
+                      // );
                     });
                   },
                 ),
@@ -325,22 +330,22 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
                         labelText: "Vous envoyez (Fcfa) :",
                         hintText: "0",
                         keyboardType: TextInputType.number,
-                        controller: receiveController,
-                        suffixIcon: const Icon(
-                          HugeIcons.strokeRoundedMoney03,
-                          color: Colors.black,
+                        controller: senderMoneycontroller,
+                        suffixIcon: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text("XOF"),
                         ),
                         onChanged: (value) {
                           //if (value.isEmpty) return;
-                          int v = 0;
+                          double v = 0;
                           setState(() {
                             if (value.isNotEmpty) {
-                              v = int.parse(value) * selectCountryValue.rate;
+                              v = int.parse(value) / selectCountryValue.rate;
+                              v = double.parse(v.toStringAsFixed(3));
                             } else {
                               v = 0 * selectCountryValue.rate;
                             }
-
-                            receiverMoneycontroller.text = "$v";
+                            receiveController.text = "$v";
                           });
                         },
                       ),
@@ -348,17 +353,43 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
                     SizedBox(width: SizeConfig.blockHorizontal! * 2.5),
                     Flexible(
                       child: InputTextFormFiled(
-                        labelText: "Ils reçcoivent (Eur) :",
+                        labelText:
+                            "Ils reçcoivent ${selectCountryValue.currency} :",
                         hintText: "0",
-                        controller: receiverMoneycontroller,
+                        controller: receiveController,
                         keyboardType: const TextInputType.numberWithOptions(),
-                        suffixIcon: const Icon(
-                          HugeIcons.strokeRoundedMoney03,
-                          color: Colors.black,
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(selectCountryValue.currency),
                         ),
+                        onChanged: (value) {
+                          if (value.isEmpty) return;
+                          double v = 0;
+                          setState(() {
+                            if (value.isNotEmpty) {
+                              double amount = double.tryParse(value) ?? 0;
+                              v = (amount * selectCountryValue.rate);
+                              v = double.parse(v.toStringAsFixed(3));
+                            } else {
+                              v = 0 * selectCountryValue.rate;
+                            }
+                            senderMoneycontroller.text = "$v";
+                          });
+                        },
                       ),
                     ),
                   ],
+                ),
+                SizedBox(height: SizeConfig.blockHorizontal! * 3.5),
+                const Center(
+                  child: Text(
+                    "Frais KORI = 1% ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      color: ksecondary,
+                    ),
+                  ),
                 ),
                 SizedBox(height: SizeConfig.blockHorizontal! * 4.5),
 
@@ -378,8 +409,12 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
                   title: const Text(
                     'Enrégistrer les informations du bénéficiaire',
                   ),
-                  value: true,
-                  onChanged: (bool? value) {},
+                  value: saveBenefInfo,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      saveBenefInfo = !saveBenefInfo;
+                    });
+                  },
                 ),
 
                 SizedBox(height: SizeConfig.blockVertical! * 4.5),
@@ -388,20 +423,23 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
                   isLoading: isLoading,
                   labelButton: "Valider",
                   onPressed: () {
-                    String amount = "";
                     setState(() {
                       isLoading = true;
-                      amount = receiverMoneycontroller.text
-                          .replaceAll(selectCountryValue.currency, '');
                     });
                     Future.delayed(const Duration(seconds: 4), () {
+                      setState(() {
+                        isLoading = false;
+                      });
                       if (!context.mounted) return;
                       context.pushNamed(RESUMERTRANSFERT, queryParameters: {
-                        "amount": amount,
+                        "amount":
+                            "${receiveController.text} ${selectCountryValue.currency}",
                         "frais": 1.toString(),
-                        "taux": selectCountryValue.rate.toString(),
-                        "total": 15000.toString(),
-                        "amountTotal": receiverMoneycontroller.text,
+                        "taux":
+                            "${selectCountryValue.rate} ${selectCountryValue.currency}",
+                        "total": addOnePercent(senderMoneycontroller.text)
+                            .toString(),
+                        "amountTotal": "${senderMoneycontroller.text} XOF",
                         "userName": benefNameController.text,
                         "motif": motifController.text,
                         "country": countryController.text,

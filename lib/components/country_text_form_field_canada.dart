@@ -26,7 +26,7 @@ CountryCanada _selectedValue = CountryCanada(
   code: 'CI',
   dialCode: '225',
   currency: 'XOF',
-  rate: 500,
+  rate: 1,
   paymentSupport: [
     PaymentSupport(
         code: 'visa',

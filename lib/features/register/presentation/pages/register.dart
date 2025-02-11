@@ -313,6 +313,8 @@ class _RegisterState extends State<Register> {
 
                               Future.delayed(const Duration(seconds: 10));
 
+                              print(_lastnameController.text);
+
                               setState(() {
                                 loading = false;
                               });

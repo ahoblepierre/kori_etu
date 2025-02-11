@@ -61,7 +61,7 @@ class WelcomeParentPage extends StatelessWidget {
                 PrimaryButton(
                   labelButton: "Envoyer de l'argent",
                   onPressed: () {
-                    context.goNamed(ENVOYERARGENT);
+                    context.goNamed(TRANSFERTARGENT);
                   },
                 ),
                 SizedBox(height: SizeConfig.blockHorizontal! * 5),

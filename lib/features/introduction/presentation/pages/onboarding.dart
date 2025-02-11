@@ -6,7 +6,6 @@ import 'package:kori_etu/config/routes/route_name.dart';
 import 'package:kori_etu/config/size_config.dart';
 import 'package:kori_etu/config/theme/style.dart';
 import 'package:kori_etu/core/resources/onboarding_model.dart';
-import 'package:kori_etu/features/introduction/presentation/widgets/change_language_widget.dart';
 import 'package:kori_etu/features/introduction/presentation/widgets/onboarding_Iconbutton.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

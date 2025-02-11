@@ -6,7 +6,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:kori_etu/config/theme/dark_theme.dart';
 import 'package:kori_etu/config/theme/light_theme.dart';
 import 'package:kori_etu/controller/transaction_controller.dart';
-import 'package:kori_etu/core/resources/my_bloc_observer.dart';
 import 'package:kori_etu/features/introduction/presentation/bloc/onboarding_bloc.dart';
 import 'package:kori_etu/features/login/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:kori_etu/features/register/presentation/bloc/register_bloc/register_bloc.dart';

@@ -5,10 +5,29 @@ import 'package:kori_etu/components/primary_button.dart';
 import 'package:kori_etu/config/routes/route_name.dart';
 import 'package:kori_etu/config/size_config.dart';
 import 'package:kori_etu/config/theme/style.dart';
+import 'package:kori_etu/core/resources/scaffold_message_enum.dart';
+import 'package:kori_etu/core/services/storage_service.dart';
+import 'package:kori_etu/core/utils/utils.dart';
 import 'package:kori_etu/features/register/presentation/bloc/welcome/welcome_bloc.dart';
 
-class WelcomeEtudiantPage extends StatelessWidget {
+class WelcomeEtudiantPage extends StatefulWidget {
   const WelcomeEtudiantPage({super.key});
+
+  @override
+  State<WelcomeEtudiantPage> createState() => _WelcomeEtudiantPageState();
+}
+
+class _WelcomeEtudiantPageState extends State<WelcomeEtudiantPage> {
+  StorageService storageService = StorageService();
+
+  bool identification = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    identification = storageService.getCache("identification") ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +80,15 @@ class WelcomeEtudiantPage extends StatelessWidget {
                 PrimaryButton(
                   labelButton: "Activer / Commander une carte",
                   onPressed: () {
-                    context.goNamed(TRANSFERTSERVICECARTE);
+                    if (!identification) {
+                      koriScaffoldMessage(
+                        context,
+                        "Accéss limité au service. Complèté votre KYC",
+                        statut: Statut.WARNING,
+                      );
+                    } else {
+                      context.goNamed(TRANSFERTSERVICECARTE);
+                    }
                   },
                 ),
                 SizedBox(height: SizeConfig.blockHorizontal! * 5),

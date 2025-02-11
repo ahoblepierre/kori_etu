@@ -4,7 +4,6 @@ import 'package:kori_etu/components/primary_button.dart';
 import 'package:kori_etu/config/routes/route_name.dart';
 import 'package:kori_etu/config/size_config.dart';
 import 'package:kori_etu/config/theme/style.dart';
-import 'package:kori_etu/features/introduction/presentation/widgets/change_language_widget.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
