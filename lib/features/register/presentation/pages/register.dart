@@ -311,21 +311,19 @@ class _RegisterState extends State<Register> {
                               StorageService()
                                   .saveAuthToken(generateRandomString());
 
-                              Future.delayed(const Duration(seconds: 10));
-
-                              print(_lastnameController.text);
-
-                              setState(() {
-                                loading = false;
+                              Future.delayed(const Duration(seconds: 5), () {
+                                setState(() {
+                                  loading = false;
+                                });
+                                if (!context.mounted) return;
+                                context.pushNamed(
+                                  CONFIRMEMAIL,
+                                  queryParameters: {
+                                    "email": _textEditingController.text,
+                                    "user": _textEditingController.text,
+                                  },
+                                );
                               });
-
-                              context.pushNamed(
-                                CONFIRMEMAIL,
-                                queryParameters: {
-                                  "email": _textEditingController.text,
-                                  "user": _textEditingController.text,
-                                },
-                              );
 
                               // context
                               //     .read<RegisterBloc>()

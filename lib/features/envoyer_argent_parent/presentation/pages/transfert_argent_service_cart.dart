@@ -50,7 +50,14 @@ class _TransfertArgentServiceCartState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: SizeConfig.blockHorizontal! * 25.5),
+            SizedBox(height: SizeConfig.blockHorizontal! * 5.5),
+
+            Image.asset(
+              "assets/images/credit-cardt.png",
+              // height: SizeConfig.screenWidth! / 5,
+              width: double.infinity,
+            ),
+
             PrimaryButton(
               isLoading: isLoadingCreateCarte,
               labelButton: "Créer une carte virtuelle Kori",
@@ -121,7 +128,7 @@ class _TransfertArgentServiceCartState
                         hintText: "Numéro de Téléphone :",
                         keyboardType: const TextInputType.numberWithOptions(),
                         suffixIcon: const Icon(
-                          HugeIcons.strokeRoundedCity03,
+                          HugeIcons.strokeRoundedSmartPhone01,
                         ),
                       ),
                       SizedBox(height: SizeConfig.blockHorizontal! * 9.5),

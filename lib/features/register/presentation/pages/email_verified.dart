@@ -30,6 +30,8 @@ class _EmailVerifiedState extends State<EmailVerified> {
   // final EmailVerifiedBloc emailVerifiedBloc =
   //     GetIt.instance<EmailVerifiedBloc>();
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -162,10 +164,20 @@ class _EmailVerifiedState extends State<EmailVerified> {
                             );
                           } else {
                             return PrimaryButton(
+                              isLoading: isLoading,
                               labelButton: "Create you PIN",
                               textStyle: const TextStyle(),
                               onPressed: () {
-                                context.pushNamed(SETPINCODE);
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                Future.delayed(const Duration(seconds: 3), () {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  if (!context.mounted) return;
+                                  context.pushNamed(SETPINCODE);
+                                });
                               },
                             );
                           }

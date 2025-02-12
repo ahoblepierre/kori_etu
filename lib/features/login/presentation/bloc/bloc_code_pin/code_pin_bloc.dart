@@ -20,6 +20,8 @@ class CodePinBloc extends Bloc<CodePinEvent, CodePinState> {
     on<ErreurCodePinEvent>(erreurCodePinEvent);
 
     on<AuthWithCodePinEvent>(authWithCodePinEvent);
+
+    on<GoToCodePinEvent>(goToCodePinEvent);
   }
 
   FutureOr<void> initCodePinEvent(
@@ -64,7 +66,9 @@ class CodePinBloc extends Bloc<CodePinEvent, CodePinState> {
 
     storage.setCache("pin", event.enteredCode);
 
-    emit(CodePinSuccessState());
+    await Future.delayed(const Duration(seconds: 3));
+
+    add(GoToCodePinEvent());
 
     // dataResponse.fold((dataFail) {
     //   Logger().i(dataFail.data.toString());
@@ -77,5 +81,10 @@ class CodePinBloc extends Bloc<CodePinEvent, CodePinState> {
     //   storage.setIsDateNowToLogin(); // set isDateNowToLogin
     //   emit(CodePinSuccessState());
     // });
+  }
+
+  FutureOr<void> goToCodePinEvent(
+      GoToCodePinEvent event, Emitter<CodePinState> emit) {
+    emit(CodePinSuccessState());
   }
 }

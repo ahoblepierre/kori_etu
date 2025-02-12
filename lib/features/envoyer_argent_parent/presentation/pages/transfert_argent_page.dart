@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:intl/intl.dart';
 import 'package:kori_etu/components/country_text_form_field_canada.dart';
 import 'package:kori_etu/components/kori_autocomplete_text_form.dart';
 import 'package:kori_etu/components/kori_dropdown_menu.dart';
@@ -100,14 +101,15 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
         ),
       ]);
 
-  // var receiverMoneycontroller = MoneyMaskedTextController(
-  //   decimalSeparator: '.',
-  //   thousandSeparator: ',',
-  //   rightSymbol: '',
-  //   precision: 0,
-  // );
-
   TextEditingController receiverMoneycontroller = TextEditingController();
+
+  final NumberFormat formatXOF = NumberFormat.currency(
+    locale: "fr_FR",
+    symbol: "XOF",
+    decimalDigits: 0, // Pas de décimales en général pour XOF
+  );
+  final NumberFormat formatCAD =
+      NumberFormat.currency(locale: "en_CA", symbol: "CAD \$");
 
   @override
   Widget build(BuildContext context) {
@@ -381,13 +383,18 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
                   ],
                 ),
                 SizedBox(height: SizeConfig.blockHorizontal! * 3.5),
-                const Center(
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: ksecondary.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  alignment: Alignment.center,
                   child: Text(
                     "Frais KORI = 1% ",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                      color: ksecondary,
+                    style: koriTextStyle(
+                      color: Colors.black,
+                      fontSize: SizeConfig.blockHorizontal! * 3.5,
                     ),
                   ),
                 ),
@@ -432,14 +439,15 @@ class _TransfertArgentPageState extends State<TransfertArgentPage> {
                       });
                       if (!context.mounted) return;
                       context.pushNamed(RESUMERTRANSFERT, queryParameters: {
-                        "amount":
-                            "${receiveController.text} ${selectCountryValue.currency}",
+                        "amount": formatCAD
+                            .format(double.tryParse(receiveController.text)),
                         "frais": 1.toString(),
                         "taux":
                             "${selectCountryValue.rate} ${selectCountryValue.currency}",
-                        "total": addOnePercent(senderMoneycontroller.text)
-                            .toString(),
-                        "amountTotal": "${senderMoneycontroller.text} XOF",
+                        "total": formatXOF
+                            .format(addOnePercent(senderMoneycontroller.text)),
+                        "amountTotal":
+                            "${formatXOF.format(double.tryParse(senderMoneycontroller.text))} XOF",
                         "userName": benefNameController.text,
                         "motif": motifController.text,
                         "country": countryController.text,

@@ -80,7 +80,7 @@ class OnboardingEnd extends StatelessWidget {
                       builder: (context, state) {
                         return PrimaryButton(
                           isLoading: state is OnboardingGetStarted,
-                          labelButton: "Commencer",
+                          labelButton: "Get started",
                           onPressed: () {
                             context.read<OnboardingBloc>().add(
                                   OnboardingStartedEvent(),

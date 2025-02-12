@@ -31,6 +31,8 @@ class _EmailConfirmeState extends State<EmailConfirme> {
   RegisterUser? user;
   Map<String, dynamic>? userParameter;
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -116,16 +118,27 @@ class _EmailConfirmeState extends State<EmailConfirme> {
                 ),
                 const Spacer(),
                 PrimaryButton(
+                  isLoading: isLoading,
                   labelButton: "Open my email",
                   textStyle: const TextStyle(),
                   onPressed: () {
-                    context.pushNamed(
-                      EMAILVERIFIED,
-                      pathParameters: {
-                        "token": "PIERRE AHOBLE"
-                        // "token": StorageService().getCache(emailTokenValidite)
-                      },
-                    );
+                    setState(() {
+                      isLoading = true;
+                    });
+                    print("Super kool $isLoading");
+                    Future.delayed(const Duration(seconds: 5), () {
+                      setState(() {
+                        isLoading = false;
+                      });
+                      if (!context.mounted) return;
+                      context.pushNamed(
+                        EMAILVERIFIED,
+                        pathParameters: {
+                          "token": "PIERRE AHOBLE"
+                          // "token": StorageService().getCache(emailTokenValidite)
+                        },
+                      );
+                    });
                   },
                 ),
                 BlocBuilder<RegisterBloc, RegisterState>(

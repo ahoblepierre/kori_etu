@@ -138,7 +138,7 @@ class _ResumeTransfertState extends State<ResumeTransfert> {
                     ),
                     alignment: AlignmentDirectional.center,
                     child: Text(
-                      "${data['total']} XOF",
+                      "${data['total']}",
                       style: koriTextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: SizeConfig.blockHorizontal! * 5.5,

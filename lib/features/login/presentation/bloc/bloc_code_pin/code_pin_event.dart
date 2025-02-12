@@ -39,3 +39,5 @@ class AuthWithCodePinEvent extends CodePinEvent {
   @override
   List<Object> get props => [enteredCode];
 }
+
+class GoToCodePinEvent extends CodePinEvent {}

@@ -21,7 +21,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   FutureOr<void> onboardingStartedEvent(
       OnboardingStartedEvent event, Emitter<OnboardingState> emit) async {
     emit(OnboardingGetStarted());
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     add(OnboardingCompletedEvent());
   }
 
